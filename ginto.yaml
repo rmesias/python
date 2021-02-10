@@ -22,4 +22,11 @@ inputs:
     label: Github Repository
     type: github
     required: true
-
+  - name: build
+    label: Build Command
+    type: text
+    default: npm run build
+  - name: start
+    label: Start Command
+    type: text
+    default: npm start
