@@ -1,32 +1,44 @@
 version: 0.1
-name: Python
-description: Python webservice automatic deployment via Github.
-image: logo.jpeg
+name: strapi
+description: An open-source headless content management system.
+image: logo.png
 resources:
   - name: main
     type: container
     size:
       minimum: nano
-      default: nano
+      default: micro
     platform: node
-    build: >
-      rm -rf ./project &&
-      git clone {{ repository.url }} ./project --branch {{ repository.branch }} --depth 1 &&
-      cd ./project &&
-      npm install &&
-      {{ build }}
-    start: cd ./project && {{ start }}
+    build: npm install && npm run build
+    start: npm start
     https: true
+    environment:
+      - name: DATABASE
+        value: '{{ database }}'
+      - name: MONGODB_URI
+        value: '{{ mongodb_uri }}'
+  - name: data
+    type: volume
+    size: 
+      minimum: 1
+      default: 2
+    path: /mnt/data
+    container: main
 inputs:
-  - name: repository
-    label: Github Repository
-    type: github
+  - name: database
+    label: Database
+    type: enum
+    values:
+      - SQLite
+      - MongoDB
     required: true
-  - name: build
-    label: Build Command
+    default: SQLite
+    description: this is a QA test
+  - name: mongodb_uri
+    label: MongoDB URI
     type: text
-    default: npm run build
-  - name: start
-    label: Start Command
-    type: text
-    default: npm start
+    conditional:
+      input: database
+      condition:
+        eq: MongoDB
+    required: true
