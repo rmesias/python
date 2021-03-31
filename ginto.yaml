@@ -26,7 +26,7 @@ resources:
     container: main
 inputs:
   - name: database
-    - description: This is a QA test
+    description: This is a QA test
     label: Database
     type: enum
     values:
