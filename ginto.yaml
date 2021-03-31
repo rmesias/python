@@ -1,7 +1,7 @@
 version: 0.1
 name: strapi-reyjie
 description: An open-source headless content management system.
-image: logo.png
+image: logo.jpg
 resources:
   - name: main
     type: container
