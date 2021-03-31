@@ -33,7 +33,6 @@ inputs:
       - MongoDB
     required: true
     default: SQLite
-    description: this is a QA test
   - name: mongodb_uri
     label: MongoDB URI
     type: text
