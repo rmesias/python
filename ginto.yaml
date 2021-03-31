@@ -28,7 +28,7 @@ inputs:
   - name: database
     description: Command to execute when building the service.
     label: Database
-    type: toggle
+    type: enum
     values:
       - SQLite
       - MongoDB
@@ -42,3 +42,9 @@ inputs:
       condition:
         eq: MongoDB
     required: true
+  - name: testToggle
+    label: TESTTOGGLE
+    type: toggle
+    description: Testing toggle
+    required: true
+    default: false
