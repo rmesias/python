@@ -27,20 +27,6 @@ resources:
 inputs:
   - name: database
     label: Database
-    type: enum
-    values:
-      - SQLite
-      - MongoDB
-    required: true
-    default: SQLite
-  - name: mongodb_uri
-    label: MongoDB URI
     type: text
-    conditional:
-      input: database
-      condition:
-        eq: MongoDB
-    required: true
-    validation:
-      message: Should be a valid URI.
-      regex: [^0-9]
+  - name: QA test
+    type: toggle
