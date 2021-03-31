@@ -2,7 +2,7 @@
 version: 0.1
 name: ghost
 description: An open-source headless content management system.
-image: logo.png
+image: logo.jpeg
 resources:
   - name: main
     type: container
