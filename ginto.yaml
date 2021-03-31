@@ -37,7 +37,7 @@ inputs:
   - name: mongodb_uri
     description: This is a QA test
     label: MongoDB URI
-    type: text
+    type: toggle
     conditional:
       input: database
       condition:
