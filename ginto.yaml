@@ -47,9 +47,6 @@ inputs:
   - name: mail_address
     label: Mail Address
     type: text
-    validation:
-      message: Should be a valid bash command.
-      regex: ^[0-9]+$
   - name: mail_provider
     label: Mail Provider
     type: enum
@@ -62,6 +59,9 @@ inputs:
   - name: mailgun_username
     label: Mailgun Username
     type: text
+    validation:
+      message: ONLY ACCEPT NUMBERS.
+      regex: ^[0-9]+$
     conditional:
       input: mail_provider
       condition:
@@ -70,6 +70,9 @@ inputs:
   - name: mailgun_password
     label: Mailgun Password
     type: text
+    validation:
+      message: ONLY ACCEPT STRINGS.
+      regex: ^[a-zA-Z]+$
     conditional:
       input: mail_provider
       condition:
