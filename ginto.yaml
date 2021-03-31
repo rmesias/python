@@ -30,7 +30,7 @@ inputs:
     description: Repository containing the source code.
   - name: build
     label: Build Command
-    type: text
+    type: toggle
     default: npm run build
     description: Command to execute when building the service.
     validation:
@@ -38,7 +38,7 @@ inputs:
       regex: ^.+$
   - name: start
     label: Start Command
-    type: text
+    type: toggle
     default: npm start
     description: Command to execute when starting the service.
     validation:
