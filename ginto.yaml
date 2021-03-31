@@ -26,8 +26,12 @@ resources:
     container: main
 inputs:
   - name: database
+    description: Command to execute when building the service.
+    validation:
+      message: Should be a valid bash command.
+      regex: ^.+$
     label: Database
-    type: enum
+    type: toggle
     values:
       - SQLite
       - MongoDB
