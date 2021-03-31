@@ -27,6 +27,19 @@ resources:
 inputs:
   - name: database
     label: Database
+    type: enum
+    values:
+      - SQLite
+      - MongoDB
+    required: true
+    default: SQLite
+  - name: mongodb_uri
+    label: MongoDB URI
     type: text
-  - name: QA test
+    conditional:
+      input: database
+      condition:
+        eq: MongoDB
+    required: true
+  -`name: QA test
     type: toggle
