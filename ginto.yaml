@@ -41,12 +41,18 @@ inputs:
   - name: base_url
     label: Base URL
     type: text
+    description: This is QA test
     validation:
-      message: Should be a valid bash command.
+      message: only accepts numbers.
       regex: ^[0-9]+$
+    required: true
   - name: mail_address
     label: Mail Address
     type: text
+    validation:
+      message: ONLY ACCEPT STRINGS.
+      regex: ^[a-zA-Z]+$
+    required: true
   - name: mail_provider
     label: Mail Provider
     type: enum
@@ -59,6 +65,7 @@ inputs:
   - name: mailgun_username
     label: Mailgun Username
     type: text
+    description: This is QA test
     validation:
       message: ONLY ACCEPT NUMBERS.
       regex: ^[0-9]+$
@@ -70,6 +77,7 @@ inputs:
   - name: mailgun_password
     label: Mailgun Password
     type: text
+    description: This is QA test
     validation:
       message: ONLY ACCEPT STRINGS.
       regex: ^[a-zA-Z]+$
@@ -97,6 +105,7 @@ inputs:
   - name: ses_secret_access_key
     label: SES Secret Access Key
     type: text
+    description: This is QA test
     conditional:
       input: mail_provider
       condition:
