@@ -1,45 +1,46 @@
 version: 0.1
-name: strapi-reyjie
-description: An open-source headless content management system.
-image: logo.jpeg
+name: NodeJS
+description: NodeJS webservice automatic deployment via Github.
+image: logo.jpg
 resources:
   - name: main
     type: container
     size:
       minimum: nano
-      default: micro
+      default: nano
     platform: node
-    build: npm install && npm run build
-    start: npm start
+    build: >
+      rm -rf ./project &&
+      git clone {{ repository.url }} ./project --branch {{ repository.branch }} --depth 1 &&
+      cd ./project &&
+      npm install &&
+      {{ build }}
+    start: cd ./project && {{ start }}
     https: true
-    environment:
-      - name: DATABASE
-        value: '{{ database }}'
-      - name: MONGODB_URI
-        value: '{{ mongodb_uri }}'
-  - name: data
-    type: volume
-    size: 
-      minimum: 1
-      default: 2
-    path: /mnt/data
-    container: main
+triggers:
+  - type: github
+    repository:
+      name: '{{ repository.name }}'
+      branch: '{{ repository.branch }}'
 inputs:
-  - name: database
-    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    label: Database
-    type: enum
-    values:
-      - SQLite
-      - MongoDB
+  - name: repository
+    label: Github Repository
+    type: github
     required: true
-    default: SQLite
-  - name: mongodb_uri
-    description: This is a QA test
-    label: MongoDB URI
-    type: toggle
-    conditional:
-      input: database
-      condition:
-        eq: MongoDB
-    required: true
+    description: Repository containing the source code.
+  - name: build
+    label: Build Command
+    type: text
+    default: npm run build
+    description: Command to execute when building the service.
+    validation:
+      message: Should be a valid bash command.
+      regex: ^.+$
+  - name: start
+    label: Start Command
+    type: text
+    default: npm start
+    description: Command to execute when starting the service.
+    validation:
+      message: Should be a valid bash command.
+      regex: ^.+$
