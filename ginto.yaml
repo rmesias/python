@@ -30,7 +30,7 @@ inputs:
     description: Repository containing the source code.
   - name: build
     label: Build Command
-    type: toggle
+    type: text
     default: npm run build
     description: Command to execute when building the service.
     validation:
