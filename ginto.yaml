@@ -1,7 +1,7 @@
 version: 0.1
 name: strapi-reyjie
 description: An open-source headless content management system.
-image: logo.jpg
+image: logo.jpeg
 resources:
   - name: main
     type: container
@@ -26,12 +26,9 @@ resources:
     container: main
 inputs:
   - name: database
-    description: Command to execute when building the service.
-    validation:
-      message: Should be a valid bash command.
-      regex: ^.+$
+    description: This is a QA test
     label: Database
-    type: toggle
+    type: enum
     values:
       - SQLite
       - MongoDB
