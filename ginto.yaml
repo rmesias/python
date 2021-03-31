@@ -1,5 +1,5 @@
 version: 0.1
-name: strapi
+name: strapi-reyjie
 description: An open-source headless content management system.
 image: logo.png
 resources:
