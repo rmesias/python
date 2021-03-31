@@ -1,7 +1,7 @@
 version: 0.1
 name: strapi
 description: An open-source headless content management system.
-image: logo.jpeg
+image: logo.png
 resources:
   - name: main
     type: container
@@ -26,8 +26,12 @@ resources:
     container: main
 inputs:
   - name: database
+    description: Command to execute when building the service.
+    validation:
+      message: Should be a valid bash command.
+      regex: ^.+$
     label: Database
-    type: enum
+    type: toggle
     values:
       - SQLite
       - MongoDB
@@ -41,5 +45,3 @@ inputs:
       condition:
         eq: MongoDB
     required: true
-  -`name: QA test
-    type: toggle
