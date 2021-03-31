@@ -1,46 +1,101 @@
+
 version: 0.1
-name: NodeJS
-description: NodeJS webservice automatic deployment via Github.
-image: logo.jpeg
+name: ghost
+description: An open-source headless content management system.
+image: logo.png
 resources:
   - name: main
     type: container
     size:
       minimum: nano
-      default: nano
+      default: micro
     platform: node
-    build: >
-      rm -rf ./project &&
-      git clone {{ repository.url }} ./project --branch {{ repository.branch }} --depth 1 &&
-      cd ./project &&
-      npm install &&
-      {{ build }}
-    start: cd ./project && {{ start }}
+    build: ./build.sh
+    start: ./start.sh
     https: true
-triggers:
-  - type: github
-    repository:
-      name: '{{ repository.name }}'
-      branch: '{{ repository.branch }}'
+    environment:
+      - name: URL
+        value: '{{ base_url }}'
+      - name: MAIL_ADDRESS
+        value: '{{ mail_address }}'
+      - name: MAIL_PROVIDER
+        value: '{{ mail_provider }}'
+      - name: MAILGUN_USERNAME
+        value: '{{ mailgun_username }}'
+      - name: MAILGUN_PASSWORD
+        value: '{{ mailgun_password }}'
+      - name: SES_SERVER_NAME
+        value: '{{ ses_server_name }}'
+      - name: SES_ACCESS_KEY_ID
+        value: '{{ ses_access_key_id }}'
+      - name: SES_SECRET_ACCESS_KEY
+        value: '{{ ses_secret_access_key }}'
+  - name: data
+    type: volume
+    size: 
+      minimum: 5
+      default: 10
+    path: /mnt/data
+    container: main
 inputs:
-  - name: repository
-    label: Github Repository
-    type: github
+  - name: base_url
+    label: Base URL
+    type: text
+    validation:
+      message: Should be a valid bash command.
+      regex: ^[0-9]+$
+  - name: mail_address
+    label: Mail Address
+    type: text
+    validation:
+      message: Should be a valid bash command.
+      regex: ^[0-9]+$
+  - name: mail_provider
+    label: Mail Provider
+    type: enum
+    values:
+      - Direct
+      - Mailgun
+      - SES
     required: true
-    description: Repository containing the source code.
-  - name: build
-    label: Build Command
+    default: Direct
+  - name: mailgun_username
+    label: Mailgun Username
     type: text
-    default: npm run build
-    description: Command to execute when building the service.
-    validation:
-      message: only number are accepted.
-      regex: ^[0-9]+$
-  - name: start
-    label: Start Command
+    conditional:
+      input: mail_provider
+      condition:
+        eq: Mailgun
+    required: true
+  - name: mailgun_password
+    label: Mailgun Password
     type: text
-    default: npm start
-    description: Command to execute when starting the service.
-    validation:
-      message: only number are accepted.
-      regex: ^[0-9]+$
+    conditional:
+      input: mail_provider
+      condition:
+        eq: Mailgun
+    required: true
+  - name: ses_server_name
+    label: SES Server Name
+    type: text
+    conditional:
+      input: mail_provider
+      condition:
+        eq: SES
+    required: true
+  - name: ses_access_key_id
+    label: SES Access Key ID
+    type: text
+    conditional:
+      input: mail_provider
+      condition:
+        eq: SES
+    required: true
+  - name: ses_secret_access_key
+    label: SES Secret Access Key
+    type: text
+    conditional:
+      input: mail_provider
+      condition:
+        eq: SES
+    required: true
